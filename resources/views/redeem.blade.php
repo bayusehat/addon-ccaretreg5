@@ -230,6 +230,38 @@
           <div class="row">
 
             <div class="col-md-12">
+                @if(session('success'))
+
+                    <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
+
+                        <strong>Sukses!</strong> {{ Session::get('success')}}
+
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+                            <span aria-hidden="true">&times;</span>
+
+                        </button>
+
+                    </div>
+
+                @endif
+
+                @if(session('error'))
+
+                    <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+
+                        <strong>Gagal!</strong> {{ Session::get('error')}}
+
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+                            <span aria-hidden="true">&times;</span>
+
+                        </button>
+
+                    </div>
+
+                @endif
+                
                 <img src="{{ asset('assets/images/redeem.png') }}" style="margin-bottom:40px;width:100%">
 
                 <div class="row">
@@ -254,38 +286,6 @@
                 @csrf
 
                 <div class="p-3 p-lg-5 border">
-
-                    @if(session('success'))
-
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-
-                            <strong>Sukses!</strong> {{ Session::get('success')}}
-
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-
-                                <span aria-hidden="true">&times;</span>
-
-                            </button>
-
-                        </div>
-
-                    @endif
-
-                    @if(session('error'))
-
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-
-                            <strong>Gagal!</strong> {{ Session::get('error')}}
-
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-
-                                <span aria-hidden="true">&times;</span>
-
-                            </button>
-
-                        </div>
-
-                    @endif
 
                     <div class="form-group row">
                         <p class="tebal">Untuk redeem point, silakan mengisi form berikut ini:</p>

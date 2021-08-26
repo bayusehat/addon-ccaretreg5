@@ -5,6 +5,26 @@
         <h6 class="m-0 font-weight-bold text-primary">Data</h6>
     </div>
     <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Witel</label>
+                    <select name="witel" id="witel" class="form-control">
+                        <option value="">Select Witel</option>
+                        @foreach ($witel as $v)
+                            <option value="{{$v->cwitel}}">{{ $v->area }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">SEARCH</label>
+                    <br>
+                    <button type="button" class="btn btn-success" onclick="loadData()"><i class="fa fa-search"></i> Cari</button>
+                </div>
+            </div>
+        </div>
         @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>Sukses!</strong> {{ Session::get('success')}}
@@ -29,8 +49,10 @@
                     <th>No</th>
                     <th>NAMA</th>
                     <th>NOMOR HP</th>
+                    <th>ND</th>
                     <th>E-Mail</th>
                     <th>ALAMAT PENGIRIMAN</th>
+                    <th>WITEL</th>
                     <th>STATUS</th>
                     <th>CREATED</th>
                     <th>ACTION</th>
@@ -49,12 +71,13 @@
     });
 
     function loadData(){
+        var witel = $("#witel").val();
         $('#dataTable').DataTable({
             asynchronous: true,
             processing: true, 
             destroy: true,
             ajax: {
-                url: "{{ url('admin/redeem/load') }}",
+                url: "{{ url('admin/redeem/load') }}?witel="+witel,
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
@@ -64,13 +87,15 @@
                 { name: 'id', searchable: false, orderable: true, className: 'text-center' },
                 { name: 'nama'},
                 { name: 'nomor'},
+                { name: 'nd'},
                 { name: 'email'},
                 { name: 'alamat'},
+                { name: 'witel'},
                 { name: 'status'},
                 { name: 'created'},
                 { name: 'action', searchable: false, orderable: false, className: 'text-center' }
             ],
-            order: [[5, 'desc']],
+            order: [[7, 'desc']],
             iDisplayInLength: 10 
         });
     }
