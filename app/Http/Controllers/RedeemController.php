@@ -110,14 +110,22 @@ class RedeemController extends Controller
 
     public function loadData(Request $request)
     {
-        $witel = $request->input('witel');
-        if($witel){
-            $cwitel = "a.cwitel = $witel";
+        $witel_log = session('witel');
+        if($witel_log != 'REGIONAL 5'){
+            $wt = " area = '$witel_log'";
         }else{
-            $cwitel = "1=1";
+            $wt = " 1=1 ";
+
+            $witel = $request->input('witel');
+            if($witel){
+                $cwitel = "a.cwitel = $witel";
+            }else{
+                $cwitel = "1=1";
+            }
         }
+
         $response['data'] = [];
-        $query =  DB::select("select a.*,b.area from redeem_new a left join areas b on a.cwitel = b.cwitel where $cwitel");
+        $query =  DB::select("select a.*,b.area from redeem_new a left join areas b on a.cwitel = b.cwitel where $wt");
         foreach ($query as $i => $v) {
             if($v->attachment == '' || $v->attachment == null){
                 $status = '<b><i>Bukti pengiriman belum diupload</i></b>';
@@ -131,6 +139,7 @@ class RedeemController extends Controller
                 $v->nd_internet,
                 $v->email_pelanggan,
                 $v->alamat_pengiriman,
+                $v->kode_voucher,
                 $v->area,
                 $status,
                 date('d/m/Y H:i',strtotime($v->created)),

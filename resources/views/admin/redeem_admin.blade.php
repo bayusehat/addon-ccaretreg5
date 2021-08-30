@@ -5,7 +5,7 @@
         <h6 class="m-0 font-weight-bold text-primary">Data</h6>
     </div>
     <div class="card-body">
-        <div class="row">
+        {{--  <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="">Witel</label>
@@ -24,7 +24,7 @@
                     <button type="button" class="btn btn-success" onclick="loadData()"><i class="fa fa-search"></i> Cari</button>
                 </div>
             </div>
-        </div>
+        </div>  --}}
         @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>Sukses!</strong> {{ Session::get('success')}}
@@ -52,6 +52,7 @@
                     <th>ND</th>
                     <th>E-Mail</th>
                     <th>ALAMAT PENGIRIMAN</th>
+                    <th>KODE VOUCHER</th>
                     <th>WITEL</th>
                     <th>STATUS</th>
                     <th>CREATED</th>
@@ -90,12 +91,13 @@
                 { name: 'nd'},
                 { name: 'email'},
                 { name: 'alamat'},
+                { name: 'kode'},
                 { name: 'witel'},
                 { name: 'status'},
                 { name: 'created'},
                 { name: 'action', searchable: false, orderable: false, className: 'text-center' }
             ],
-            order: [[7, 'desc']],
+            order: [[9, 'desc']],
             iDisplayInLength: 10 
         });
     }
