@@ -5,7 +5,8 @@
         <h6 class="m-0 font-weight-bold text-primary">Data</h6>
     </div>
     <div class="card-body">
-        {{--  <div class="row">
+        @if (session('witel') == 'REGIONAL 5')
+        <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="">Witel</label>
@@ -24,7 +25,8 @@
                     <button type="button" class="btn btn-success" onclick="loadData()"><i class="fa fa-search"></i> Cari</button>
                 </div>
             </div>
-        </div>  --}}
+        </div>
+        @endif
         @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>Sukses!</strong> {{ Session::get('success')}}

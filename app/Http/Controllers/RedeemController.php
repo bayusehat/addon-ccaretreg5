@@ -114,13 +114,11 @@ class RedeemController extends Controller
         if($witel_log != 'REGIONAL 5'){
             $wt = " area = '$witel_log'";
         }else{
-            $wt = " 1=1 ";
-
             $witel = $request->input('witel');
             if($witel){
-                $cwitel = "a.cwitel = $witel";
+                $wt = "a.cwitel = $witel";
             }else{
-                $cwitel = "1=1";
+                $wt = "1=1";
             }
         }
 
