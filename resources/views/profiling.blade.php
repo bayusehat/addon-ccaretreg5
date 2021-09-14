@@ -334,7 +334,7 @@
 
                         <div class="col-md-12">
 
-                            <label for="email_pelanggan">Email <span class="text-danger">*</span></label>
+                            <label for="email_pelanggan">Email</label>
 
                             <input type="text" class="form-control" name="email_pelanggan" id="email_pelanggan" placeholder="Email Pelanggan">
 

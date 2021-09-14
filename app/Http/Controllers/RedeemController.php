@@ -191,4 +191,66 @@ class RedeemController extends Controller
             }
         }
     }
+
+    public function report()
+    {
+        $data = [
+            'title' => 'Report Redeem Point Progress',
+            'content' => 'admin.redeem_report_admin'
+        ];
+
+        return view('layout.index',['data' => $data]);
+    }
+
+    public function report_load(Request $request)
+    {
+        $response['data'] = [];
+        $query = DB::select('select b.cwitel, b.area witel, count(*) jumlah from redeem_new a left join areas b on a.cwitel = b.cwitel group by b.area, b.cwitel');
+        foreach ($query as $i => $v) {
+            $response['data'][] = [
+                $v->witel,
+                '<a href="'.url('admin/redeem?witel='.$v->cwitel).'" target="_blank">'.$v->jumlah.'</a>'
+            ];
+        }
+
+        return response($response);
+    }
+
+    public function report_total()
+    {
+        $query = DB::select('
+        select sum(jumlah) total from(
+        select b.cwitel, b.area witel, count(*) jumlah from redeem_new a left join areas b on a.cwitel = b.cwitel group by b.area, b.cwitel
+        ) a');
+
+        return response($query);
+    }
+
+    public function report_detail($witel)
+    {
+        $response['data'] = [];
+        $query = DB::select("select a.*,b.area from redeem_new a left join areas b on a.cwitel = b.cwitel where b.area = '$witel'");
+        foreach ($query as $i => $v) {
+            if($v->attachment == '' || $v->attachment == null){
+                $status = '<b><i>Bukti pengiriman belum diupload</i></b>';
+            }else{
+                $status = '<i>Bukti pengiriman sudah diupload</i>';
+            }
+            $response['data'][] = [
+                ++$i,
+                $v->nama_pelanggan,
+                $v->nomor_hp,
+                $v->nd_internet,
+                $v->email_pelanggan,
+                $v->alamat_pengiriman,
+                $v->kode_voucher,
+                $v->area,
+                $status,
+                date('d/m/Y H:i',strtotime($v->created)),
+                '<a href="'.url('admin/redeem/edit/'.$v->id).'" class="btn btn-primary btn-block"><i class="fas fa-edit"></i> Upload bukti pengiriman</a>'
+            ];
+        }
+
+        return response($response);
+    }
 }

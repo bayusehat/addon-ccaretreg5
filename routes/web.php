@@ -76,6 +76,9 @@ Route::group(['middleware' => ['authlogin','web']],function(){
     Route::get('admin/redeem/load','RedeemController@loadData');
     Route::post('admin/redeem/update/{id}','RedeemController@update');
     Route::get('admin/redeem/edit/{id}','RedeemController@edit');
+    Route::get('admin/redeem/report','RedeemController@report');
+    Route::get('admin/redeem/report/load','RedeemController@report_load');
+    Route::get('admin/redeem/report/total','RedeemController@report_total');
 
     Route::get('admin/profiling','ProfilingController@dashboard');
     Route::get('admin/profiling/load','ProfilingController@loadData');

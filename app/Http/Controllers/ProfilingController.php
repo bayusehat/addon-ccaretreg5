@@ -22,7 +22,6 @@ class ProfilingController extends Controller
         $rules = [
             'nomor_inet' => 'required',
             'nama_pelanggan' => 'required',
-            'email_pelanggan' => 'required',
             'disclaimer' => 'required',
             'penanggung_jawab' => 'required'
         ];
