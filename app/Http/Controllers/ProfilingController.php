@@ -23,6 +23,7 @@ class ProfilingController extends Controller
             'nomor_inet' => 'required',
             'nama_pelanggan' => 'required',
             'disclaimer' => 'required',
+            'hubungan' => 'required',
             'penanggung_jawab' => 'required'
         ];
 
@@ -38,6 +39,7 @@ class ProfilingController extends Controller
                 'email_pelanggan' => $request->input('email_pelanggan'),
                 'nomor_hp_alt' => $request->input('nomor_hp_alt'),
                 'cwitel' => $request->input('cwitel'),
+                'hubungan' => $request->input('hubungan'),
                 'penanggung_jawab' => $request->input('penanggung_jawab')
             ];
 
@@ -99,7 +101,8 @@ class ProfilingController extends Controller
                 $v->nomor_hp,
                 $v->nd_internet,
                 $v->email_pelanggan, 
-                $v->penanggung_jawab
+                $v->penanggung_jawab,
+                $v->hubungan
             ];
         }
 

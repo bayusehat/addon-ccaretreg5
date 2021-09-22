@@ -32,6 +32,7 @@
                     <th>ND</th>
                     <th>E-MAIL</th>
                     <th>PENANGGUNG JAWAB</th>
+                    <th>HUBUNGAN DG PEMILIK</th>
                 </tr>
               </thead>
               <tbody>
@@ -64,6 +65,7 @@
                 { name: 'nomor_hp'},
                 { name: 'nd_internet'},
                 { name: 'status'},
+                { name: 'created'},
                 { name: 'created'},
             ],
             order: [[5, 'desc']],

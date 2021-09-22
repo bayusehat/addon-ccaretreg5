@@ -223,11 +223,14 @@
           <div class="row">
 
             <div class="col-md-12">
-                <img src="{{ asset('assets/images/profiling.png') }}" style="margin-bottom:40px;width:100%">
+                {{-- <img src="{{ asset('assets/images/profiling.png') }}" style="margin-bottom:40px;width:100%"> --}}
                 
-                <h5 class="tebal">Profiling</h5>
+                <h2 class="tebal">Formulir Pembaharuan Data Pelanggan Telkom</h2>
+                <p>Kami mengucapkan terima kasih dan apresiasi yang setinggi-tingginya atas kepercayaan Bapak/ Ibu yang selama ini telah setia menggunakan layanan PT Telkom Indonesia. Kami berharap kerjasama yang terjalin selama ini bersama Telkom dapat memberikan manfaat bagi Bapak / Ibu.</p>
+
+                <p>Sebagai upaya meningkatkan kualitas pelayanan kepada pelanggan, disampaikan bahwa saat ini PT Telkom Regional V melakukan pembaharuan data pelanggan, sehingga memudahkan  pelanggan  dalam melaporkan dan penyelesaian gangguan serta mempercepat penyampaian promo/ diskon  produk-produk  TELKOM.</p>
                 {{--  <img src="{{ asset('assets/images/indimovie2.jpg') }}" style="margin-bottom:10px;width:100%" >  --}}
-                <p>Dalam era digital ini, pemberian informasi lebih mudah menggunakan SMS, email maupun messenger. untuk meningkatan dan mempermudah pelayanan kepada pelanggan. mohon ketersediaan mengisi formulir dibawah ini :</p>
+                <p>Adapun data kontak pelanggan yang dibutuhkan adalah sebagai berikut :</p>
 
                 <form method="post" action="{{ url('register_profiling') }}">
 
@@ -278,7 +281,7 @@
 
                                 <input type="phone" class="form-control col-md-11" id="nomor_hp" name="nomor_hp" placeholder="Nomor HP yang Menerima WA / SMS" required>
 
-                                <button type="button" class="btn btn-primary btn-md col-md-1" onclick="getNumber()" style="color: #fff;">CARI</button>
+                                <button type="button" class="btn btn-primary btn-md col-md-1" onclick="getNumber()" style="color: #fff;">CARI DATA</button>
 
                                 @error('nomor_hp') <span class="text-danger">{{ $message }}</span> @enderror
 
@@ -329,6 +332,29 @@
                       </div>
 
                   </div>
+                  <div class="form-group row">
+
+                    <div class="col-md-12">
+
+                        <label for="hubungan">Hubungan dengan pemilik <span class="text-danger">*</span></label>
+
+                        <select name="hubungan" id="hubungan" class="form-control">
+                          <option value="">-- Pilih Hubungan --</option>
+                          <option value="Pemilik">Pemilik</option>
+                          <option value="Ayah">Ayah</option>
+                          <option value="Ibu">Ibu</option>
+                          <option value="Anak">Anak</option>
+                          <option value="Kakak">Kakak</option>
+                          <option value="Adik">Adik</option>
+                          <option value="Pengontrak">Pengontrak</option>
+                          <option value="Other">Other</option>
+                        </select>
+
+                        @error('hubungan') <span class="text-danger">{{ $message }}</span>@enderror
+
+                    </div>
+
+                  </div>
 
                     <div class="form-group row">
 
@@ -362,16 +388,11 @@
                     <div class="form-check">
 
                         <input type="hidden" name="cwitel" id="cwitel">
-                        {{--  <input type="hidden" name="addon" id="addon">
-                        <input type="hidden" name="price" id="price">  --}}
-
                         <input type="checkbox" name="disclaimer" id="disclaimer">
-
                         <label class="form-check-label" for="disclaimer"><a style="padding:0;text-decoration: underline;color:#0016b1" href="#" data-toggle="modal" data-target="#myModal" onclick="contentModal()">Saya menyetujui Disclaimer</a></label>
-
                         <br>
-
                         @error('disclaimer') <span class="text-danger">{{ $message }}</span>@enderror
+                        <p>Untuk informasi lebih lanjut, helpdesk kami siap membantu Bapak / Ibu pada jam kerja. Demikian disampaikan, semoga hari-hari indah bersama Telkom dapat menjadi kenangan yang lebih berarti bagi Bapak / Ibu.</p>
 
                     </div>
 
