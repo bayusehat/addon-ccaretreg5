@@ -74,6 +74,8 @@
                     <th>KODE VOUCHER</th>
                     <th>WITEL</th>
                     <th>STATUS</th>
+                    <th>TYPE REDEEM</th>
+                    <th>PRODUK</th>
                     <th>CREATED</th>
                     <th>ACTION</th>
                 </tr>
@@ -99,7 +101,7 @@
         }else{
             witels = witel;
         }
-        $('#dataTable').DataTable({
+        var t = $('#dataTable').DataTable({
             asynchronous: true,
             processing: true, 
             destroy: true,
@@ -120,11 +122,19 @@
                 { name: 'kode'},
                 { name: 'witel'},
                 { name: 'status'},
+                { name: 'jenis'},
+                { name: 'produk'},
                 { name: 'created'},
                 { name: 'action', searchable: false, orderable: false, className: 'text-center' }
             ],
-            order: [[8, 'desc'],[9, 'asc']],
+            order: [[8, 'asc'], [9, 'desc'],[10, 'desc'],[11, 'desc']],
             iDisplayInLength: 10 
         });
+
+        t.on( 'order.dt search.dt', function () {
+            t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+            } );
+        } ).draw();
     }
 </script>

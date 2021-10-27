@@ -130,6 +130,18 @@ class RedeemController extends Controller
             }else{
                 $status = '<i>Bukti pengiriman sudah diupload</i>';
             }
+
+            if($v->plasa == '' || $v->plasa == null){
+                $jenis = '<i> -- </i>';
+            }else{
+                $jenis = '<b><i>REDEEM PLASA</i></b>';
+            }
+
+            if($v->jenis_produk == '' || $v->jenis_produk == null){
+                $produk = '<b><i> -- </i></b>';
+            }else{
+                $produk = '<b><i>'.$v->jenis_produk.'</i></b>';
+            }
             $response['data'][] = [
                 ++$i,
                 $v->nama_pelanggan,
@@ -140,6 +152,8 @@ class RedeemController extends Controller
                 $v->kode_voucher,
                 $v->area,
                 $status,
+                $jenis,
+                $produk,
                 date('d/m/Y H:i',strtotime($v->created)),
                 '<a href="'.url('admin/redeem/edit/'.$v->id).'" class="btn btn-primary btn-block"><i class="fas fa-edit"></i> Upload bukti pengiriman</a>'
             ];
@@ -205,25 +219,78 @@ class RedeemController extends Controller
     public function report_load(Request $request)
     {
         $response['data'] = [];
-        $query = DB::select('select b.cwitel, b.area witel, count(*) jumlah from redeem_new a left join areas b on a.cwitel = b.cwitel group by b.area, b.cwitel');
-        foreach ($query as $i => $v) {
-            $response['data'][] = [
-                $v->witel,
-                '<a href="'.url('admin/redeem?witel='.$v->cwitel).'" target="_blank">'.$v->jumlah.'</a>'
-            ];
+        if($request->get('jenis_report') == 'redeem-plasa'){
+            $query = DB::select("SELECT *, PB+MOUSE+EARBUDS TOTAL
+            FROM(
+            SELECT AREA WITEL,
+            SUM(CASE WHEN JENIS_PRODUK = 'POWER BANK' THEN 1 ELSE 0 END) PB,
+            SUM(CASE WHEN JENIS_PRODUK = 'MOUSE' THEN 1 ELSE 0 END) MOUSE,
+            SUM(CASE WHEN JENIS_PRODUK = 'EARBUDS' THEN 1 ELSE 0 END) EARBUDS
+            FROM(
+            SELECT * FROM REDEEM_NEW A LEFT JOIN AREAS B ON A.CWITEL = B.CWITEL 
+            WHERE IS_PLASA IS NOT NULL
+            ) A 
+            GROUP BY AREA
+            ) B
+            ORDER BY TOTAL DESC");
+            foreach ($query as $i => $v) {
+                $response['data'][] = [
+                    $v->witel,
+                    $v->pb,
+                    $v->mouse,
+                    $v->earbuds,
+                    $v->total
+                ];
+            }
+        }else{
+            $query = DB::select('select b.cwitel, b.area witel, count(*) jumlah from redeem_new a left join areas b on a.cwitel = b.cwitel group by b.area, b.cwitel');
+            foreach ($query as $i => $v) {
+                $response['data'][] = [
+                    $v->witel,
+                    '<a href="'.url('admin/redeem?witel='.$v->cwitel).'" target="_blank">'.$v->jumlah.'</a>'
+                ];
+            }
         }
+        
 
         return response($response);
     }
 
-    public function report_total()
+    public function report_total(Request $request)
     {
-        $query = DB::select('
-        select sum(jumlah) total from(
-        select b.cwitel, b.area witel, count(*) jumlah from redeem_new a left join areas b on a.cwitel = b.cwitel group by b.area, b.cwitel
-        ) a');
+        if($request->get('jenis_report') == 'redeem'){
+            $query = DB::select("SELECT SUM(PB) TOT_PB,SUM(MOUSE) TOT_MOUSE, SUM(EARBUDS) TOT_EAR
+            FROM(
+            SELECT *, PB+MOUSE+EARBUDS TOTAL
+            FROM(
+            SELECT AREA,
+            SUM(CASE WHEN JENIS_PRODUK = 'POWER BANK' THEN 1 ELSE 0 END) PB,
+            SUM(CASE WHEN JENIS_PRODUK = 'MOUSE' THEN 1 ELSE 0 END) MOUSE,
+            SUM(CASE WHEN JENIS_PRODUK = 'EARBUDS' THEN 1 ELSE 0 END) EARBUDS
+            FROM(
+            SELECT * FROM REDEEM_NEW A LEFT JOIN AREAS B ON A.CWITEL = B.CWITEL 
+            WHERE IS_PLASA IS NOT NULL
+            ) A 
+            GROUP BY AREA
+            ) B
+            ORDER BY TOTAL DESC
+            ) C");
 
-        return response($query);
+            return response([
+                'jenis' => 'redeem-plasa',
+                'data' => $query
+            ]);
+        }else{
+            $query = DB::select('
+            select sum(jumlah) total from(
+            select b.cwitel, b.area witel, count(*) jumlah from redeem_new a left join areas b on a.cwitel = b.cwitel group by b.area, b.cwitel
+            ) a');
+
+            return response([
+                'jenis' => 'redeem',
+                'data' => $query
+            ]);
+        }
     }
 
     public function report_detail($witel)
@@ -252,5 +319,98 @@ class RedeemController extends Controller
         }
 
         return response($response);
+    }
+
+    //Redeem Plasa
+
+    public function index_redeem_plasa()
+    {
+        $data = [
+            'title' => 'Redeem Point Plasa',
+            'pekerjaan' => DB::select('select * from redeem_pekerjaan'),
+            'plasa' => DB::select("select b.area, a.plasa from areas b left join plasas a on b.cwitel = a.cwitel where area not in ('TAM MALANG','REGIONAL 5')")
+        ];
+
+        return view('redeem_plasa',$data);
+    }
+
+    public function register_plasa(Request $request)
+    {
+        $rules = [
+            'nomor_hp' => 'required',
+            'nomor_inet' => 'required',
+            'nama_pelanggan' => 'required',
+            'contact_person' => 'required',
+            'alamat_pelanggan' => 'required',
+            'alamat_pengiriman' => 'required',
+            'email_pelanggan' => 'required',
+            'pekerjaan_pelanggan' => 'required',
+            'tgl_lahir_pelanggan' => 'required',
+            'kode_voucher' => 'required',
+            'plasa' => 'required',
+            'jenis_produk' => 'required'
+            // 'disclaimer' => 'required'
+        ];
+
+        $isValid = Validator::make($request->all(),$rules);
+
+        if($isValid->fails()){
+            return redirect()->back()->withErrors($isValid->errors());
+        }else{
+            // $nd = $request->input('nomor_inet');
+            // $q_check = DB::select("select count(*) nomor from redeem_new where nd_internet = '$nd'");
+            // if(count($q_check)<=0){
+                $data = [
+                    'nomor_hp' => $request->input('nomor_hp'),
+                    'nd_internet' => $request->input('nomor_inet'),
+                    'nama_pelanggan' => $request->input('nama_pelanggan'),
+                    'contact_person' => $request->input('contact_person'),
+                    'alamat_pelanggan' => $request->input('alamat_pelanggan'),
+                    'alamat_pengiriman' => $request->input('alamat_pengiriman'),
+                    'pekerjaan_pelanggan' => $request->input('pekerjaan_pelanggan'),
+                    'tgl_lahir_pelanggan' => $request->input('tgl_lahir_pelanggan'),
+                    'email_pelanggan' =>  $request->input('email_pelanggan'),
+                    'cwitel' => $request->input('cwitel'),
+                    'kode_voucher' => $request->input('kode_voucher'),
+                    'plasa' => $request->input('plasa'),
+                    'is_plasa' => $request->input('is_plasa'),
+                    'jenis_produk' => $request->input('jenis_produk')
+                ];
+    
+                $insert = DB::table('redeem_new')->insertGetId($data);
+    
+                if($insert){
+                    return redirect()->back()->with('success','Redeem point berhasil!');
+                }else{
+                    return redirect()->back()->with('error','Terjadi kesalahan, redeem point gagal!');
+                }
+            // }else{
+            //     return redirect()->back()->with('error','Nomor sudah terdaftar!');
+            // }
+        }
+    }
+
+    public function getWitel(Request $request)
+    {
+        $plasa = $request->input('plasa');
+
+        $query = DB::select("select cwitel from plasas where plasa = '$plasa'");
+        if($query){
+            $data = [
+                'status' => 200,
+                'result' => $query[0],
+                'message' => 'Witel ditemukan'
+            ];
+
+            return response($data);
+        }else{
+            $data = [
+                'status' => 400,
+                'result' => [],
+                'message' => 'Witel tidak ditemukan'
+            ];
+
+            return response($data);
+        }
     }
 }

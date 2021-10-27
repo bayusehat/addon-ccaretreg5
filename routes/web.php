@@ -39,6 +39,10 @@ Route::get('/redeem','RedeemController@index');
 Route::post('/registrasi_redeem','RedeemController@register');
 Route::post('/getnumber_redeem','RedeemController@getNumber');
 
+Route::get('/redeem_plasa','RedeemController@index_redeem_plasa');
+Route::post('/registrasi_redeem_plasa','RedeemController@register_plasa');
+Route::get('/getwitel_redeem','RedeemController@getWitel');
+
 Route::get('/profiling','ProfilingController@index');
 Route::post('/register_profiling','ProfilingController@register');
 Route::post('/getnumber_profiling','ProfilingController@getNumber');
