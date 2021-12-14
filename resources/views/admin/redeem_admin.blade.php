@@ -105,6 +105,10 @@
             asynchronous: true,
             processing: true, 
             destroy: true,
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
             ajax: {
                 url: "{{ url('admin/redeem/load') }}?witel="+witels,
                 headers: {
@@ -124,10 +128,10 @@
                 { name: 'status'},
                 { name: 'jenis'},
                 { name: 'produk'},
-                { name: 'created'},
+                { name: 'created',type: 'date'},
                 { name: 'action', searchable: false, orderable: false, className: 'text-center' }
             ],
-            order: [[8, 'asc'], [9, 'desc'],[10, 'desc'],[11, 'desc']],
+            order: [[11, 'desc']],
             iDisplayInLength: 10 
         });
 

@@ -142,6 +142,10 @@ class RedeemController extends Controller
             }else{
                 $produk = '<b><i>'.$v->jenis_produk.'</i></b>';
             }
+            
+            $button = '<a href="'.url('admin/redeem/edit/'.$v->id).'" class="btn btn-primary btn-block"><i class="fas fa-edit"></i> Upload bukti pengiriman</a>';
+            if(!$v->attachment == '')
+                $button = 'No Action needed';
             $response['data'][] = [
                 ++$i,
                 $v->nama_pelanggan,
@@ -155,7 +159,7 @@ class RedeemController extends Controller
                 $jenis,
                 $produk,
                 date('d/m/Y H:i',strtotime($v->created)),
-                '<a href="'.url('admin/redeem/edit/'.$v->id).'" class="btn btn-primary btn-block"><i class="fas fa-edit"></i> Upload bukti pengiriman</a>'
+                $button
             ];
         }
 
@@ -357,9 +361,9 @@ class RedeemController extends Controller
         if($isValid->fails()){
             return redirect()->back()->withErrors($isValid->errors());
         }else{
-            // $nd = $request->input('nomor_inet');
-            // $q_check = DB::select("select count(*) nomor from redeem_new where nd_internet = '$nd'");
-            // if(count($q_check)<=0){
+            $kode_voucher = $request->input('kode_voucher');
+            $q_check = DB::select("select * from redeem_new where kode_voucher = '$kode_voucher'");
+            if(count($q_check)<=0){
                 $data = [
                     'nomor_hp' => $request->input('nomor_hp'),
                     'nd_internet' => $request->input('nomor_inet'),
@@ -384,9 +388,9 @@ class RedeemController extends Controller
                 }else{
                     return redirect()->back()->with('error','Terjadi kesalahan, redeem point gagal!');
                 }
-            // }else{
-            //     return redirect()->back()->with('error','Nomor sudah terdaftar!');
-            // }
+            }else{
+                return redirect()->back()->with('error','Kode voucher sudah terdaftar!');
+            }
         }
     }
 
