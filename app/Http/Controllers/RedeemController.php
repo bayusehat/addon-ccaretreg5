@@ -145,7 +145,7 @@ class RedeemController extends Controller
             
             $button = '<a href="'.url('admin/redeem/edit/'.$v->id).'" class="btn btn-primary btn-block"><i class="fas fa-edit"></i> Upload bukti pengiriman</a>';
             if(!$v->attachment == '')
-                $button = 'No Action needed';
+                $button = '<a href="'.asset('backend/img/'.$v->attachment).'" target="_blank" class="btn btn-success btn-block"><i class="fas fa-eye"></i> Cek resi</a>';
             $response['data'][] = [
                 ++$i,
                 $v->nama_pelanggan,
