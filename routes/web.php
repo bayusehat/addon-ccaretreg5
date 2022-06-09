@@ -86,5 +86,36 @@ Route::group(['middleware' => ['authlogin','web']],function(){
 
     Route::get('admin/profiling','ProfilingController@dashboard');
     Route::get('admin/profiling/load','ProfilingController@loadData');
-});
 
+    Route::get('inv/item','InventoryController@item');
+    Route::get('inv/item/load','InventoryController@loadData');
+    Route::post('inv/item/insert','InventoryController@insertItem');
+    Route::get('inv/item/edit/{id}','InventoryController@editItem');
+    Route::post('inv/item/update/{id}','InventoryController@updateItem');
+    Route::get('inv/item/delete/{id}','InventoryController@deleteItem');
+
+    Route::get('inv/transaksi','InventoryController@transaksi');
+    Route::get('inv/transaksi/load','InventoryController@loadDataTransaksi');
+    Route::get('inv/transaksi/create','InventoryController@insertTransaksi');
+    Route::get('inv/transaksi/delete/{id}','InventoryController@deleteTransaksi');
+    Route::get('inv/transaksi/update/status/{id}','InventoryController@updateStatus');
+    Route::get('inv/transaksi/detail','InventoryController@detailTransaksi');
+
+    Route::get('inv/transaksi/detail/load','InventoryController@loadDataDetailTransaksi');
+    Route::post('inv/transaksi/detail/insert','InventoryController@insertDetail');
+    Route::get('inv/transaksi/detail/delete/{id}','InventoryController@deleteDetail');
+
+    Route::get('inv/report','InventoryController@reportItem');
+    Route::get('inv/report/load','InventoryController@loadDataReport');
+    Route::get('inv/report/detail/{id}','InventoryController@reportItemDetail');
+    Route::get('inv/report/load/detail/{id}','InventoryController@loadDataReportDetail');
+
+    Route::get('inv/report/fetch/stok','InventoryController@getStokAkhir');
+
+    Route::get('inv/report/plasa','InventoryController@stokPlasaPage');
+    Route::get('inv/report/plasa/stok','InventoryController@stokPlasa');
+    Route::get('inv/report/plasa/load/detail/{plasa}','InventoryController@stokPlasaDetailLoad');
+    Route::get('inv/report/plasa/detail/{plasa}','InventoryController@stokPlasaPageDetail');
+});
+Route::post('kcontact/generate/do','FormController@generateKcontact');
+Route::get('kcontact/generate','FormController@kcontactPage');

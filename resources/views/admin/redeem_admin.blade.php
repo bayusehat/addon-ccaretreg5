@@ -72,6 +72,7 @@
                     <th>E-Mail</th>
                     <th>ALAMAT PENGIRIMAN</th>
                     <th>KODE VOUCHER</th>
+                    <th>PLASA</th>
                     <th>WITEL</th>
                     <th>STATUS</th>
                     <th>TYPE REDEEM</th>
@@ -145,6 +146,7 @@
                 { name: 'email'},
                 { name: 'alamat'},
                 { name: 'kode'},
+                { name: 'plasa'},
                 { name: 'witel'},
                 { name: 'status'},
                 { name: 'jenis'},
@@ -152,7 +154,7 @@
                 { name: 'created'},
                 { name: 'action', searchable: false, orderable: false, className: 'text-center' }
             ],
-            order: [[11, 'desc']],
+            order: [[12, 'desc']],
             iDisplayInLength: 10 
         });
 

@@ -154,6 +154,7 @@ class RedeemController extends Controller
                 $v->email_pelanggan,
                 $v->alamat_pengiriman,
                 $v->kode_voucher,
+                $v->plasa,
                 $v->area,
                 $status,
                 $jenis,
@@ -200,7 +201,7 @@ class RedeemController extends Controller
                 ]);
 
                 if($upatt){
-                    return redirect('admin/redeem')->with('success','Berhasil mengupload bukti pengiriman');
+                    return redirect()->back()->with('success','Berhasil mengupload bukti pengiriman');
                 }else{
                     return redirect()->back()->with('error','Terjadi kesalahan saat menyimpan!');
                 }

@@ -130,4 +130,45 @@ class FormController extends Controller
 
         return response($response);
     }
+
+    public function kcontactPage()
+    {
+        $data = [
+            'title' => 'Generate KCONTACT',
+            'content' => 'admin.generate_kcontact',
+            'nologin' => true
+        ];
+
+        return view('layout.index',['data' =>  $data]);
+    }
+
+    public function generateKcontact(Request $request)
+    {
+        $rules = [
+            'nd_internet' => 'required',
+            'lpc' => 'required',
+            'nama' => 'required',
+            'no_hp' => 'required',
+            'addon' => 'required',
+            'speed' => 'required'
+        ];
+
+        $isValid = Validator::make($request->all(),$rules);
+
+        if($isValid->fails()){
+            return response([
+                'status' => 400,
+                'errors' => $isValid->errors()
+            ]);
+        }else{
+            $nd = substr($request->input('nd_internet'),1,9);
+            $tgl = date('Ymd'); 
+            $pattern = 'LPIH-'.$tgl.''.$nd.';LANDINGPAGE_CRL_LPC'.$request->input("lpc").';'.$request->input("addon").' '.$request->input("speed").' Mbps;'.$request->input("nama").';'.$request->input("no_hp").';LPIH';
+
+            return response([
+                'status' => 200,
+                'result' => $pattern
+            ]);
+        }
+    }
 }

@@ -7,6 +7,7 @@ use DB;
 use Validator;
 use Hash;
 use Str;
+use Session;
 
 class LoginController extends Controller
 {
@@ -53,7 +54,8 @@ class LoginController extends Controller
                             'username' => $check[0]->username,
                             'token'    => Str::random(60),
                             'profil'   => $check[0]->profile,
-                            'witel'    => $check[0]->area
+                            'witel'    => $check[0]->area,
+                            'is_logged'=> true
                         ];
                         session($session);
                         return redirect('/dashboard');
@@ -76,9 +78,8 @@ class LoginController extends Controller
 
     public function doLogout()
     {
-        session()->flush();
-        session()->forget('token');
-        session()->save();
+        Session::put('is_logged',false);
+        Session::save();
         return redirect('/login');
     }
 

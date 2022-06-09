@@ -40,6 +40,7 @@
             <span>CTB Menu</span></a>
         </li>
         @endif --}}
+        @if (session('is_logged'))
         @if (session('profil') == 'OBC')
         <!-- Nav Item - Tables -->
         <li class="nav-item">
@@ -79,7 +80,23 @@
           <a class="nav-link" href="{{ url('admin/profiling') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Profiling</span></a>
-        </li>   
+        </li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+              <i class="fas fa-fw fa-folder"></i>
+              <span>Inventory</span>
+          </a>
+          <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+              <div class="bg-white py-2 collapse-inner rounded">
+                  <h6 class="collapse-header">Inv submenu:</h6>
+                  <a class="collapse-item" href="{{ url('inv/item') }}">Stok</a>
+                  <a class="collapse-item" href="{{ url('inv/transaksi/detail') }}">Transaksi</a>
+                  <a class="collapse-item" href="{{ url('inv/report') }}">Report</a>
+                  <a class="collapse-item" href="{{ url('inv/report/plasa') }}">Report Plasa</a>
+              </div>
+          </div>
+      </li>
+      @endif   
         {{-- @if (session('profil') == 4)
 
         <li class="nav-item">
@@ -286,7 +303,7 @@
               </li>
   
               <div class="topbar-divider d-none d-sm-block"></div>
-  
+              @if (session('is_logged'))
               <!-- Nav Item - User Information -->
               <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -314,7 +331,7 @@
                   </a>
                 </div>
               </li>
-  
+              @endif
             </ul>
   
           </nav>
