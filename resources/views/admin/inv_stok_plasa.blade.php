@@ -101,7 +101,7 @@
     
     function loadData(id){
         $('#dataTable').DataTable({
-            dom: 'Bfrtip',
+            dom: 'Bflrtip',
             buttons: [
                 {
                     extend: 'excelHtml5',
