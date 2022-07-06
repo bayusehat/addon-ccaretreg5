@@ -443,12 +443,24 @@ class InventoryController extends Controller
     public function stokPlasa()
     {
         $response['data'] = [];
-        $query = DB::select("select plasa, sum(quantity) stok_kirim from inv_transaksi_detail where keterangan like '%redeem%' group by plasa order by plasa");
+        $query = DB::select("select a.*, coalesce(stok_redeem,0) stok_redeem, all_stok - coalesce(stok_redeem,0) sisa_stok from(
+            select a.plasa, sum(quantity) all_stok
+            from(
+                    select plasa, quantity from inv_transaksi_detail where keterangan like '%redeem%'
+            ) a 
+            group by a.plasa
+            order by a.plasa
+        ) a
+        left join (
+            select plasa,sum(case when periode is not null then 1 else 0 end) stok_redeem from inv_list_corporate group by plasa)
+        b on a.plasa = b.plasa");
         
         foreach ($query as $i => $v) {
             $response['data'][] = [
                 $v->plasa, 
-                $v->stok_kirim,
+                $v->all_stok,
+                $v->stok_redeem,
+                $v->sisa_stok,
                 '
                 <a href="'.url('inv/report/plasa/detail/'.$v->plasa).'" class="btn btn-block btn-danger text-white"><i class="fas fa-table"></i> Detail</a>
                  '

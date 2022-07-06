@@ -63,7 +63,9 @@
               <thead>
                 <tr>
                     <th>PLASA</th>
-                    <th>STOK</th>
+                    <th>STOK ALL</th>
+                    <th>REDEEM</th>
+                    <th>SISA STOK</th>
                     <th>ACTION</th>
                 </tr>
               </thead>
@@ -106,7 +108,7 @@
                 {
                     extend: 'excelHtml5',
                     exportOptions: {
-                        columns:  [ 0, 1 ],
+                        columns:  [ 0, 1, 2, 3 ],
                     }
                 }
             ],
@@ -123,6 +125,8 @@
             columns: [
                 { name: 'plasa', searchable: false, orderable: true },
                 { name: 'stok_kirim' },
+                { name: 'prev_month' },
+                { name: 'stok_redeem'},
                 { name: 'action'}
             ],
             order: [[0, 'desc']],
