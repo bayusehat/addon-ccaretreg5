@@ -21,7 +21,11 @@ class OplangController extends Controller
     public function loadData()
     {
         $response['data'] = [];
-        $query = DB::select("SELECT A.*,B.USERNAME FROM UPSPEED_NEW A LEFT JOIN USERS B ON A.USER_OPLANG = B.ID ORDER BY CREATED,STATUS_OPLANG ASC");
+        $query = DB::select("SELECT A.*,B.USERNAME, KAT_HVC FROM UPSPEED_NEW A 
+            LEFT JOIN USERS B ON A.USER_OPLANG = B.ID
+            JOIN HVCS C ON A.ND_INTERNET = C.ND_INTERNET
+            GROUP BY A.ID, USERNAME, KAT_HVC
+            ORDER BY CREATED,STATUS_OPLANG ASC");
         foreach ($query as $i => $v) {
             if($v->status_oplang == 1){
                 $status = '<span class="badge badge-success">SUKSES by '.$v->username.'</span>';
@@ -37,6 +41,7 @@ class OplangController extends Controller
                 $v->nomor_inet,
                 $v->nomor_hp,
                 $v->nama_pelanggan,
+                $v->kat_hvc,
                 $status,
                 date('d/m/Y H:i',strtotime($v->created)),
                 '

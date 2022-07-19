@@ -119,3 +119,12 @@ Route::group(['middleware' => ['authlogin','web']],function(){
 });
 Route::post('kcontact/generate/do','FormController@generateKcontact');
 Route::get('kcontact/generate','FormController@kcontactPage');
+//CC FORM
+Route::get('cc','CombatChurnController@index');
+Route::get('cc/create','CombatChurnController@create');
+Route::post('cc/insert','CombatChurnController@insert');
+Route::get('cc/load','CombatChurnController@loadData');
+Route::get('cc/search','CombatChurnController@getDataPelanggan');
+Route::get('cc/chart','CombatChurnController@chart');
+Route::get('cc/game','CombatChurnController@game');
+Route::get('cc/load/game','CombatChurnController@loadDataGame');

@@ -53,12 +53,22 @@
     <script src="{{ asset('backend/jquery.loading.js') }}"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable({
                 responsive : true
             });
-            $('.select2').select2();
+            $('.select2').select2({
+                dropdownAutoWidth: 'true',
+                width : '100%'
+            });
+            $('.select2-multiple').select2({
+                tags : true,
+                dropdownAutoWidth: 'true',
+                width : '100%'
+            });
             $('.datepicker' ).datepicker({ dateFormat: 'yy-mm-dd' });
         });
     </script>
