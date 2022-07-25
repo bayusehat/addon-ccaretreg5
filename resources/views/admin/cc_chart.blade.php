@@ -57,6 +57,24 @@
                 <div id="piechartPp" style="width:100%"></div>
             </div>
         </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="piechartPbs" style="width:100%"></div>
+            </div>
+            <div class="col-md-6">
+                <div id="piechartPkbs" style="width:100%"></div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="piechartPn" style="width:100%"></div>
+            </div>
+            <div class="col-md-6">
+                {{--  <div id="piechartPkbs" style="width:100%"></div>  --}}
+            </div>
+        </div>
     </div>
 </div>
 
@@ -71,6 +89,9 @@
             jumlahPenggunaChart();
             winbackChart();
             paketPilihanChart();
+            pengalamanBaikPsChart();
+            pengalamanKurangBaikPsChart();
+            posisiNteChart();
         },
         'packages':['corechart']
     });
@@ -106,7 +127,7 @@
                 ['Pengalaman Baik', 'Percent'],
      
                     @php
-                    foreach($pengalaman_baik as $pb) {
+                    foreach($pengalaman_baik_ih as $pb) {
                         echo "['".$pb->jawaban."', ".$ac->jml."],";
                     }
                     @endphp
@@ -129,7 +150,7 @@
             var data = google.visualization.arrayToDataTable([
                 ['Pengalaman Kurang Baik', 'Percent'],   
                     @php
-                    foreach($pengalaman_kurang_baik as $pkb) {
+                    foreach($pengalaman_kurang_baik_ih as $pkb) {
                         echo "['".$pkb->jawaban."', ".$pkb->jml."],";
                     }
                     @endphp
@@ -242,6 +263,66 @@
             }
             };
             var chart = new google.visualization.PieChart(document.getElementById('piechartPp'));
+            chart.draw(data, options);
+        }
+
+        function pengalamanBaikPsChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Pengalaman Baik Provider saat ini', 'Percent'],   
+                    @php
+                    foreach($pengalaman_baik_ps as $pps) {
+                        echo "['".$pps->jawaban."', ".$pps->jml."],";
+                    }
+                    @endphp
+            ]);
+            var options = {
+            title: 'Pengalaman Baik Provider saat ini',
+            is3D: false,
+            vAxis: {
+                format: 'percent',
+            }
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('piechartPbs'));
+            chart.draw(data, options);
+        }
+
+        function pengalamanKurangBaikPsChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Pengalaman Kurang Baik Provider saat ini', 'Percent'],   
+                    @php
+                    foreach($pengalaman_kurang_baik_ps as $ppks) {
+                        echo "['".$ppks->jawaban."', ".$ppks->jml."],";
+                    }
+                    @endphp
+            ]);
+            var options = {
+            title: 'Pengalaman Kurang Baik Provider saat ini',
+            is3D: false,
+            vAxis: {
+                format: 'percent',
+            }
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('piechartPkbs'));
+            chart.draw(data, options);
+        }
+
+        function posisiNteChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Posisi NTE', 'Percent'],   
+                    @php
+                    foreach($posisi_nte as $pn) {
+                        echo "['".$pn->jawaban."', ".$pn->jml."],";
+                    }
+                    @endphp
+            ]);
+            var options = {
+            title: 'Posisi NTE Chart',
+            is3D: false,
+            vAxis: {
+                format: 'percent',
+            }
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('piechartPn'));
             chart.draw(data, options);
         }
 </script>

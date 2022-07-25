@@ -64,6 +64,7 @@
                 <tr>
                     <th>ID</th>
                     <th>TGL KIRIM</th>
+                    <th>WITEL</th>
                     <th>PLASA</th>
                     <th>KETERANGAN</th>
                     <th>QTY OUT</th>
@@ -118,6 +119,7 @@
             columns: [
                 { name: 'id', searchable: false, orderable: true, className: 'text-center' },
                 { name: 'tgl_kirim' },
+                { name: 'witel'},
                 { name: 'plasa'},
                 { name: 'keterangan'},
                 { name: 'stok' },

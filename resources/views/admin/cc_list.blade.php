@@ -80,4 +80,26 @@
             iDisplayInLength: 10 
         });
     }
+
+    function deleteForm(id){
+        $.ajax({
+            url : "{{ url('cc/delete') }}/"+id,
+            method : 'GET',
+            dataType : 'JSON',
+            beforeSend:function(){
+                $('body').loading()
+            },
+            complete:function(){
+                $('body').loading('stop');
+            },
+            success:function(e){
+                if(e.status == 200){
+                    $('#dataTable').DataTable().ajax.reload(null, false)
+                    swal ( "Wohoo!" ,  "Data berhasil dihapus!" ,  "success" )
+                }else{
+                    swal ( "Oops" ,  "Gagal menghapus data!" ,  "error" )
+                }
+            }
+        })
+    }
 </script>

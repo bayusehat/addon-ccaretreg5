@@ -416,10 +416,12 @@ class InventoryController extends Controller
         $stok = $qStok[0]->stok;
         foreach ($query as $i => $v) {
             $plasa = $v->plasa == null ? '-' : $v->plasa;
+            $witel = $v->witel == null ? '-' : $v->witel;
             $stok = $stok - $v->quantity;
             $response['data'][] = [
                $v->id,
                date('d-m-Y', strtotime($v->tgl_kirim)),
+               $witel,
                $plasa,
                $v->keterangan,
                $v->quantity,

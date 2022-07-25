@@ -96,21 +96,24 @@
               </div>
           </div>
         </li>
-      @endif   
-      <li class="nav-item">
-        <a class="nav-link {{ $data['menuOn'] != '' ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages2">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Combat Churn</span>
-        </a>
-        <div id="collapsePages2" class="collapse  {{ $data['menuOn'] != '' ? 'show' : '' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Combat Churn submenu:</h6>
-                <a class="collapse-item" href="{{ url('cc') }}" {{ $data['menuOn'] == 'list' ? 'active' : '' }}>List</a>
-                <a class="collapse-item" href="{{ url('cc/chart') }}" {{ $data['menuOn'] == 'chart' ? 'active' : '' }}>Chart</a>
-                <a class="collapse-item" href="{{ url('cc/game') }}" {{ $data['menuOn'] == 'game' ? 'active' : '' }}>Report Game</a>
-            </div>
-        </div>
-      </li>
+      @endif
+      @isset($data['menuOn'])
+        <li class="nav-item">
+          <a class="nav-link {{ $data['menuOn'] != '' ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages2">
+              <i class="fas fa-fw fa-user"></i>
+              <span>Combat Churn</span>
+          </a>
+          <div id="collapsePages2" class="collapse  {{ $data['menuOn'] != '' ? 'show' : '' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+              <div class="bg-white py-2 collapse-inner rounded">
+                  <h6 class="collapse-header">Combat Churn submenu:</h6>
+                  <a class="collapse-item {{ $data['menuOn'] == 'list' ? 'active' : '' }}" href="{{ url('cc') }}" >List</a>
+                  <a class="collapse-item {{ $data['menuOn'] == 'chart' ? 'active' : '' }}" href="{{ url('cc/chart') }}" >Chart</a>
+                  <a class="collapse-item {{ $data['menuOn'] == 'game' ? 'active' : '' }}" href="{{ url('cc/game') }}" >Report Game</a>
+              </div>
+          </div>
+        </li>
+      @endisset  
+      
         {{-- @if (session('profil') == 4)
 
         <li class="nav-item">

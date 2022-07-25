@@ -372,19 +372,6 @@
         }else{
             $(".voc"+a+"_value").hide()
         }
-        //if(a == 4){
-        //    if(e.checked == true){
-        //        $(".voc"+a+"_value").show()
-        //    }else{
-        //        $(".voc"+a+"_value").hide()
-        //    }
-        //}else{
-        //    if(val == 'Lain-lain'){
-        //        $(".voc"+a+"_value").show()
-        //    }else{
-       //         $(".voc"+a+"_value").hide()
-        //    }
-        //}
     }
 
     function makeRules(e){
