@@ -1,4 +1,4 @@
-<h1 class="h3 mb-2 text-gray-800">Stok Item</h1>
+<h1 class="h3 mb-2 text-gray-800">Mutasi Stok Item HVC Witel</h1>
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -58,28 +58,14 @@
                 </button>
             </div>
         @endif
-        <div class="row">
-            <div class="col-md-3">
-                <label for="">TIPE</label>
-                <select name="tipe" id="tipe" class="form-control">
-                    <option value="ALL">ALL</option>
-                    <option value="1">REDEEM</option>
-                    <option value="2">HVC</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-
-            </div>
-        </div>
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
-                    <th>No</th>
-                    <th>NAMA</th>
-                    <th>STOK</th>
-                    <th>STOK AKHIR</th>
-                    <th>DETAIL</th>
+                    <th>ID</th>
+                    <th>WITEL</th>
+                    <th>QTY</th>
+                    <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -115,26 +101,24 @@
     });
 
     function loadData(){
-        tipe = $("#tipe").val();
         $('#dataTable').DataTable({
             asynchronous: true,
             processing: true,
             destroy: true,
             ajax: {
-                url: "{{ url('inv/report/load') }}?tipe="+tipe,
+                url: "{{ url('inv/report/hvc/load') }}",
                 headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 method: 'GET'
             },
             columns: [
-                { name: 'id', searchable: false, orderable: true, className: 'text-center' },
-                { name: 'item' },
-                { name: 'stok' },
-                { name: 'stok_akhir'},
-                { name: 'action', searchable: false, orderable: false, className: 'text-center' }
+                { name: 'no', searchable: false, orderable: true, className: 'text-center' },
+                { name: 'witel' },
+                { name: 'qty'},
+                { name: 'action'}
             ],
-            order: [[0, 'asc']],
+            order: [[0, 'desc']],
             iDisplayInLength: 10
         });
     }

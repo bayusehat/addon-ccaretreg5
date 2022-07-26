@@ -24,11 +24,11 @@ class InventoryController extends Controller
     {
         $response['data'] = [];
         $query = DB::select('select * from inv_item where deleted = 0');
-        
+
         foreach ($query as $i => $v) {
             $response['data'][] = [
                 ++$i,
-                $v->item, 
+                $v->item,
                 $v->vendor,
                 date('d/m/Y',strtotime($v->tanggal_masuk)),
                 $v->stok,
@@ -214,7 +214,7 @@ class InventoryController extends Controller
             $detail = DB::select('delete from inv_transaksi_detail where id_transaksi = '.$id);
                 return response([
                     'status' =>  200,
-                    'result' => 'Berhasil menghapus transaksi.' 
+                    'result' => 'Berhasil menghapus transaksi.'
                 ]);
 
         return response([
@@ -237,7 +237,7 @@ class InventoryController extends Controller
                 'status' => 200,
                 'result' => 'Berhasil mengubah status'
             ]);
-        
+
         return response([
             'status' => 500,
             'result' => 'Gagal mengubah status.'
@@ -266,7 +266,7 @@ class InventoryController extends Controller
             $button = '
                 <a href="javascript:void(0)" class="btn btn-danger" onclick="deleteDetail('.$td->id.')"><i class="fas fa-trash"></i></a>
                 ';
-             
+
             $response['data'][] = [
                 ++$d,
                 $td->witel,
@@ -288,7 +288,8 @@ class InventoryController extends Controller
             'witel' => 'required',
             'quantity' => 'required',
             'tgl_kirim' => 'required',
-            'item' => 'required'
+            'item' => 'required',
+            'tipe' => 'required'
         ];
 
         $isValid = Validator::make($request->all(),$rules);
@@ -305,7 +306,8 @@ class InventoryController extends Controller
                 'quantity' =>  $request->input('quantity'),
                 'tgl_kirim' => $request->input('tgl_kirim'),
                 'witel' => $request->input('witel'),
-                'keterangan' =>  $request->input('keterangan')
+                'keterangan' =>  $request->input('keterangan'),
+                'tipe' => $request->input('tipe')
             ];
 
             $insert = DB::table('inv_transaksi_detail')->insertGetId($data);
@@ -332,7 +334,7 @@ class InventoryController extends Controller
                 'status' => 200,
                 'result' => 'Berhasil menghapus detail'
             ]);
-        
+
         return response([
             'status' => 500,
             'result' => 'Gagal menghapus detail'
@@ -378,13 +380,13 @@ class InventoryController extends Controller
             select item, sum(quantity) all_stok from inv_transaksi_detail a left join inv_item b on a.id_item = b.id
             group by item
             ) b on a.item = b.item');
-        
+
         foreach ($query as $i => $v) {
-            // $stok_akhir = 
+            // $stok_akhir =
            $stok_akhir = $v->stok - $v->all_stok;
             $response['data'][] = [
                 ++$i,
-                $v->item, 
+                $v->item,
                 $v->stok,
                 $stok_akhir,
                 '
@@ -449,17 +451,17 @@ class InventoryController extends Controller
             select a.plasa, sum(quantity) all_stok
             from(
                     select plasa, quantity from inv_transaksi_detail where keterangan like '%redeem%'
-            ) a 
+            ) a
             group by a.plasa
             order by a.plasa
         ) a
         left join (
             select plasa,sum(case when periode is not null then 1 else 0 end) stok_redeem from inv_list_corporate group by plasa)
         b on a.plasa = b.plasa");
-        
+
         foreach ($query as $i => $v) {
             $response['data'][] = [
-                $v->plasa, 
+                $v->plasa,
                 $v->all_stok,
                 $v->stok_redeem,
                 $v->sisa_stok,
@@ -486,7 +488,7 @@ class InventoryController extends Controller
     {
         $response['data'] = [];
         $query = DB::select("select * from inv_transaksi_detail a left join inv_item b on a.id_item = b.id where a.plasa = '$plasa' and keterangan like '%redeem%'");
-        
+
         foreach ($query as $i => $v) {
             $plasa = $v->plasa == null ? '-' : $v->plasa;
             $response['data'][] = [
@@ -498,6 +500,59 @@ class InventoryController extends Controller
             ];
         }
 
+        return response($response);
+    }
+
+    public function reportHvcPage()
+    {
+        $data = [
+            'title' => 'Report Item HVC Witel',
+            'content' => 'admin.inv_stok_hvc_witel',
+        ];
+
+        return view('layout.index',['data' => $data]);
+    }
+
+    public function reportHvc(Request $request)
+    {
+        $response['data'] = [];
+        $query = DB::select("select witel, sum(quantity) all_stok from inv_transaksi_detail a left join inv_item b on a.id_item = b.id where keterangan like '%HVC%' or tipe = 2 group by witel");
+        $no = 1;
+        foreach ($query as $v) {
+            $response['data'][] = [
+                $no++,
+                $v->witel,
+                $v->all_stok,
+                '<a href="'.url('inv/report/hvc/detail/'.$v->witel).'" class="btn btn-danger btn-block"><i class="fas fa-table"></i> Detail</a>'
+            ];
+        }
+
+        return response($response);
+    }
+
+    public function reportHvcDetailPage($witel)
+    {
+        $data = [
+            'title' => 'Report Detail HVC Item Witel',
+            'content' => 'admin.inv_stok_hvc_detail_witel'
+        ];
+        return view('layout.index',['data' => $data]);
+    }
+
+    public function reportHvcDetail($id)
+    {
+        $response['data'] = [];
+        $query = DB::select("select tgl_kirim, witel, keterangan, quantity from inv_transaksi_detail a left join inv_item b on a.id_item = b.id where witel = '$id' and keterangan like '%HVC%' or tipe = 2");
+        $no = 1;
+        foreach ($query as $v) {
+            $response['data'][] = [
+                $no++,
+                date('d/m/Y H:i',strtotime($v->tgl_kirim)),
+                $v->witel,
+                $v->keterangan,
+                $v->quantity
+            ];
+        }
         return response($response);
     }
 }

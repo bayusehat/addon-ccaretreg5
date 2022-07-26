@@ -290,4 +290,56 @@ class CombatChurnController extends Controller
             ]);
         }
     }
+
+    public function insertReport()
+    {
+        $query = DB::select('select id_form from cc_jawaban where deleted_at is null');
+        foreach ($query as $i => $v) {
+            $inserToReport = DB::table('cc_report_rows')->insert([
+                'id_form' => $v->id_form
+            ]);
+            $queryDetail = DB::select('select * from cc_jawaban where deleted_at is null');
+            // foreach ($queryDetail as $q => $d) {
+            //     if($d->voc == 1){
+            //         $dataUpdate
+            //     }
+            //     if($d->voc == 12){
+                    
+            //     }
+            //     if($d->voc == 2){
+                    
+            //     }
+            //     if($d->voc == 3){
+                    
+            //     }
+            //     if($d->voc == 4){
+                    
+            //     }
+            //     if($d->voc == 5){
+                    
+            //     }
+            //     if($d->voc == 6){
+                    
+            //     }
+            //     if($d->voc == 7){
+                    
+            //     }
+            //     if($d->voc == 8){
+                    
+            //     }
+            //     if($d->voc == 9){
+                    
+            //     }
+            //     if($d->voc == 10){
+                    
+            //     }
+            //     if($d->voc == 11){
+                    
+            //     }
+            // }
+        }
+
+        
+        
+    }
 }

@@ -6,7 +6,7 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label for="">WITEL</label>
                     <select name="witel" id="witel" class="form-control">
@@ -17,23 +17,20 @@
                     <small class="text-danger" id="valid_witel"></small>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label for="">TANGGAL KIRIM</label>
                     <input type="date" class="form-control" name="tgl_kirim" id="tgl_kirim">
                 </div>
                 <small class="text-danger" id="valid_tgl_kirim"></small>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label for="">KETERANGAN</label>
                     <input type="text" class="form-control" name="keterangan" id="keterangan">
                 </div>
                 <small class="text-danger" id="valid_keterangan"></small>
             </div>
-        </div>
-        <hr>
-        <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="">PLASA</label>
@@ -42,6 +39,20 @@
                         @foreach ($plasa as $p)
                             <option value="{{ $p->plasa }}">{{ $p->plasa }}</option>
                         @endforeach
+                    </select>
+                    <small class="text-danger" id="valid_plasa"></small>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="">TIPE</label>
+                    <select name="tipe" id="tipe" class="form-control">
+                        <option value="">-- Pilih Tipe --</option>
+                        <option value="1">REDEEM</option>
+                        <option value="2">HVC</option>
                     </select>
                     <small class="text-danger" id="valid_plasa"></small>
                 </div>
@@ -134,11 +145,11 @@
     $(function(){
         loadData();
     });
-    
+
     function loadData(){
         $('#dataTable').DataTable({
             asynchronous: true,
-            processing: true, 
+            processing: true,
             destroy: true,
             ajax: {
                 url: "{{ url('inv/transaksi/detail/load') }}",
@@ -158,7 +169,7 @@
                 { name: 'action', searchable: false, orderable: false, className: 'text-center' }
             ],
             order: [[0, 'asc']],
-            iDisplayInLength: 10 
+            iDisplayInLength: 10
         });
     }
 
@@ -169,6 +180,7 @@
         var witel = $('#witel').val();
         var tgl_kirim = $('#tgl_kirim').val();
         var keterangan = $('#keterangan').val();
+        var tipe = $("#tipe").val();
 
         if(qty == ''){
             alert('Quantity tidak boleh kosong!');
@@ -186,7 +198,8 @@
                 'quantity': qty,
                 'witel' : witel,
                 'tgl_kirim' : tgl_kirim,
-                'keterangan' : keterangan
+                'keterangan' : keterangan,
+                'tipe' : tipe
             },
             method : 'POST',
             success:function(res){
@@ -199,7 +212,7 @@
                     });
                 }else{
                     alert(res.result);
-                } 
+                }
             }
         })
     }

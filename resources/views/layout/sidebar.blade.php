@@ -2,10 +2,10 @@
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-  
+
       <!-- Sidebar -->
       <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-  
+
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
           <div class="sidebar-brand-icon rotate-n-15">
@@ -13,25 +13,25 @@
           </div>
           <div class="sidebar-brand-text mx-3">INBOX WO</div>
         </a>
-  
+
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
-  
+
         <!-- Nav Item - Dashboard -->
         {{-- <li class="nav-item active">
           <a class="nav-link" href="{{ url('/') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
         </li> --}}
-  
+
         <!-- Divider -->
         <hr class="sidebar-divider">
-  
+
         <!-- Heading -->
         <div class="sidebar-heading">
           Menu
         </div>
-        
+
         {{-- @if (session('profil') == 2 || session('profil') == 4)
         <!-- Nav Item - Charts -->
         <li class="nav-item">
@@ -93,27 +93,26 @@
                   <a class="collapse-item" href="{{ url('inv/transaksi/detail') }}">Transaksi</a>
                   <a class="collapse-item" href="{{ url('inv/report') }}">Report</a>
                   <a class="collapse-item" href="{{ url('inv/report/plasa') }}">Report Plasa</a>
+                  <a class="collapse-item" href="{{ url('inv/report/hvc') }}">HVC</a>
+              </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages2">
+              <i class="fas fa-fw fa-user"></i>
+              <span>Combat Churn</span>
+          </a>
+          <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+              <div class="bg-white py-2 collapse-inner rounded">
+                  <h6 class="collapse-header">Combat Churn submenu:</h6>
+                  <a class="collapse-item" href="{{ url('cc') }}" >List</a>
+                  <a class="collapse-item" href="{{ url('cc/chart') }}" >Chart</a>
+                  <a class="collapse-item" href="{{ url('cc/game') }}" >Report Game</a>
               </div>
           </div>
         </li>
       @endif
-      @isset($data['menuOn'])
-        <li class="nav-item">
-          <a class="nav-link {{ $data['menuOn'] != '' ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages2">
-              <i class="fas fa-fw fa-user"></i>
-              <span>Combat Churn</span>
-          </a>
-          <div id="collapsePages2" class="collapse  {{ $data['menuOn'] != '' ? 'show' : '' }}" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-              <div class="bg-white py-2 collapse-inner rounded">
-                  <h6 class="collapse-header">Combat Churn submenu:</h6>
-                  <a class="collapse-item {{ $data['menuOn'] == 'list' ? 'active' : '' }}" href="{{ url('cc') }}" >List</a>
-                  <a class="collapse-item {{ $data['menuOn'] == 'chart' ? 'active' : '' }}" href="{{ url('cc/chart') }}" >Chart</a>
-                  <a class="collapse-item {{ $data['menuOn'] == 'game' ? 'active' : '' }}" href="{{ url('cc/game') }}" >Report Game</a>
-              </div>
-          </div>
-        </li>
-      @endisset  
-      
+
         {{-- @if (session('profil') == 4)
 
         <li class="nav-item">
@@ -152,18 +151,18 @@
             <i class="fas fa-fw fa-file"></i>
             <span>Report OBC</span></a>
         </li> --}}
-  
+
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
-  
+
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
           <button class="rounded-circle border-0" id="sidebarToggle"></button>
         </div>
-  
+
       </ul>
       <!-- End of Sidebar -->
-  
+
       <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
@@ -178,7 +177,7 @@
                 <i class="fa fa-bars"></i>
               </button>
             </form>
-  
+
             <!-- Topbar Search -->
             <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
               <div class="input-group">
@@ -190,10 +189,10 @@
                 </div>
               </div>
             </form>
-  
+
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
-  
+
               <!-- Nav Item - Search Dropdown (Visible Only XS) -->
               <li class="nav-item dropdown no-arrow d-sm-none">
                 <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -213,7 +212,7 @@
                   </form>
                 </div>
               </li>
-  
+
               <!-- Nav Item - Alerts -->
               <li class="nav-item dropdown no-arrow mx-1">
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -262,7 +261,7 @@
                   <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                 </div>
               </li>
-  
+
               <!-- Nav Item - Messages -->
               <li class="nav-item dropdown no-arrow mx-1">
                 <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -318,7 +317,7 @@
                   <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                 </div>
               </li>
-  
+
               <div class="topbar-divider d-none d-sm-block"></div>
               @if (session('is_logged'))
               <!-- Nav Item - User Information -->
@@ -350,7 +349,7 @@
               </li>
               @endif
             </ul>
-  
+
           </nav>
           <!-- End of Topbar -->
           <!-- Begin Page Content -->

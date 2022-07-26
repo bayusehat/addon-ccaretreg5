@@ -110,6 +110,11 @@ Route::group(['middleware' => ['authlogin','web']],function(){
     Route::get('inv/report/detail/{id}','InventoryController@reportItemDetail');
     Route::get('inv/report/load/detail/{id}','InventoryController@loadDataReportDetail');
 
+    Route::get('inv/report/hvc','InventoryController@reportHvcPage');
+    Route::get('inv/report/hvc/load','InventoryController@reportHvc');
+    Route::get('inv/report/hvc/detail/{id}','InventoryController@reportHvcDetailPage');
+    Route::get('inv/report/hvc/load/detail/{id}','InventoryController@reportHvcDetail');
+
     Route::get('inv/report/fetch/stok','InventoryController@getStokAkhir');
 
     Route::get('inv/report/plasa','InventoryController@stokPlasaPage');
