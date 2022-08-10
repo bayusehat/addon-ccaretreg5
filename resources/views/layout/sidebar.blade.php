@@ -112,6 +112,18 @@
           </div>
         </li>
       @endif
+      <li class="nav-item">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages3" aria-expanded="true" aria-controls="collapsePages3">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Validasi nomor dinas kantor TR5</span>
+        </a>
+        <div id="collapsePages3" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Validasi submenu:</h6>
+                <a class="collapse-item" href="{{ url('val') }}" >List</a>
+            </div>
+        </div>
+      </li>
 
         {{-- @if (session('profil') == 4)
 

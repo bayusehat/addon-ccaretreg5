@@ -288,8 +288,7 @@ class InventoryController extends Controller
             'witel' => 'required',
             'quantity' => 'required',
             'tgl_kirim' => 'required',
-            'item' => 'required',
-            'tipe' => 'required'
+            'item' => 'required'
         ];
 
         $isValid = Validator::make($request->all(),$rules);
@@ -447,23 +446,27 @@ class InventoryController extends Controller
     public function stokPlasa()
     {
         $response['data'] = [];
-        $query = DB::select("select a.*, coalesce(stok_redeem,0) stok_redeem, all_stok - coalesce(stok_redeem,0) sisa_stok from(
+        $query = DB::select("select a.*, coalesce(stok_redeem_regular,0) stok_redeem_regular, coalesce(stok_redeem_premium,0) stok_redeem_premium, all_stok - (coalesce(stok_redeem_regular,0) + coalesce(stok_redeem_premium,0)) sisa_stok from(
             select a.plasa, sum(quantity) all_stok
             from(
-                    select plasa, quantity from inv_transaksi_detail where keterangan like '%redeem%'
+                            select plasa, quantity from inv_transaksi_detail where keterangan like '%redeem%'
             ) a
             group by a.plasa
             order by a.plasa
-        ) a
-        left join (
-            select plasa,sum(case when periode is not null then 1 else 0 end) stok_redeem from inv_list_corporate group by plasa)
-        b on a.plasa = b.plasa");
+            ) a
+            left join (
+            select
+            sum(case when periode is not null and price = 2500 or price = 3000 then 1 else 0 end) stok_redeem_regular,
+            sum(case when periode is not null and price = 6000 then 1 else 0 end) stok_redeem_premium,
+            case when plasa = 'PLASA DENPASAR' then 'PLASA TEUKU UMAR' else plasa end plasa from inv_list_corporate group by plasa)
+            b on a.plasa = b.plasa and a.plasa is not null");
 
         foreach ($query as $i => $v) {
             $response['data'][] = [
                 $v->plasa,
                 $v->all_stok,
-                $v->stok_redeem,
+                $v->stok_redeem_regular,
+                $v->stok_redeem_premium,
                 $v->sisa_stok,
                 '
                 <a href="'.url('inv/report/plasa/detail/'.$v->plasa).'" class="btn btn-block btn-danger text-white"><i class="fas fa-table"></i> Detail</a>
@@ -542,7 +545,9 @@ class InventoryController extends Controller
     public function reportHvcDetail($id)
     {
         $response['data'] = [];
-        $query = DB::select("select tgl_kirim, witel, keterangan, quantity from inv_transaksi_detail a left join inv_item b on a.id_item = b.id where witel = '$id' and keterangan like '%HVC%' or tipe = 2");
+        $query = DB::select("select * from (
+            select tgl_kirim, witel, keterangan, tipe, quantity from inv_transaksi_detail a left join inv_item b on a.id_item = b.id where witel = '$id'
+        ) a where keterangan like '%HVC%' or tipe = 2");
         $no = 1;
         foreach ($query as $v) {
             $response['data'][] = [

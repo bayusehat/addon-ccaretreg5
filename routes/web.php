@@ -121,6 +121,13 @@ Route::group(['middleware' => ['authlogin','web']],function(){
     Route::get('inv/report/plasa/stok','InventoryController@stokPlasa');
     Route::get('inv/report/plasa/load/detail/{plasa}','InventoryController@stokPlasaDetailLoad');
     Route::get('inv/report/plasa/detail/{plasa}','InventoryController@stokPlasaPageDetail');
+
+    Route::get('val','ValController@index');
+    Route::get('val/load','ValController@loadData');
+    Route::get('val/search','ValController@getData');
+    Route::get('val/create','ValController@create');
+    Route::post('val/insert','ValController@insert');
+
 });
 Route::post('kcontact/generate/do','FormController@generateKcontact');
 Route::get('kcontact/generate','FormController@kcontactPage');
@@ -135,3 +142,13 @@ Route::get('cc/chart','CombatChurnController@chart');
 Route::get('cc/game','CombatChurnController@game');
 Route::get('cc/load/game','CombatChurnController@loadDataGame');
 Route::get('cc/game/evidence/{kelompok}','CombatChurnController@getEvidence');
+
+
+Route::get('val','ValController@index');
+Route::get('val/load','ValController@loadData');
+Route::get('val/search','ValController@getData');
+Route::get('val/create','ValController@create');
+Route::post('val/insert','ValController@insert');
+Route::get('val/edit/{id}','ValController@edit');
+Route::post('val/update/{id}','ValController@update');
+Route::get('val/delete/{id}','ValController@destroy');

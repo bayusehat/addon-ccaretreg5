@@ -62,11 +62,15 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
-                    <th>PLASA</th>
-                    <th>STOK ALL</th>
-                    <th>REDEEM</th>
-                    <th>SISA STOK</th>
-                    <th>ACTION</th>
+                    <th rowspan="2">PLASA</th>
+                    <th rowspan="2">STOK ALL</th>
+                    <th colspan="2">REDEEM</th>
+                    <th rowspan="2">SISA STOK</th>
+                    <th rowspan="2">ACTION</th>
+                </tr>
+                <tr>
+                    <th>REGULAR</th>
+                    <th>PREMIUM</th>
                 </tr>
               </thead>
               <tbody>
@@ -100,7 +104,7 @@
     $(function(){
         loadData();
     });
-    
+
     function loadData(id){
         $('#dataTable').DataTable({
             dom: 'Bflrtip',
@@ -108,12 +112,12 @@
                 {
                     extend: 'excelHtml5',
                     exportOptions: {
-                        columns:  [ 0, 1, 2, 3 ],
+                        columns:  [ 0, 1, 2, 3, 4 ],
                     }
                 }
             ],
             asynchronous: true,
-            processing: true, 
+            processing: true,
             destroy: true,
             ajax: {
                 url: "{{ url('inv/report/plasa/stok') }}",
@@ -126,11 +130,12 @@
                 { name: 'plasa', searchable: false, orderable: true },
                 { name: 'stok_kirim' },
                 { name: 'prev_month' },
+                { name: 'st'},
                 { name: 'stok_redeem'},
                 { name: 'action'}
             ],
             order: [[0, 'desc']],
-            iDisplayInLength: 13 
+            iDisplayInLength: 13
         });
     }
 </script>
